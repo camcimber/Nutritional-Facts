@@ -1,0 +1,3 @@
+/Users/camryncimber/CLionProjects/Nutritional-Facts/cmake-build-debug/CMakeFiles/Nutritional_Facts.dir
+/Users/camryncimber/CLionProjects/Nutritional-Facts/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/camryncimber/CLionProjects/Nutritional-Facts/cmake-build-debug/CMakeFiles/rebuild_cache.dir
