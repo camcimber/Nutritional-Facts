@@ -31,9 +31,16 @@ public:
 
             //parse to get description
             finder = line.find('"');
-            description = line.substr( finder + 1);
-            finder2 = description.find('"');
-            description = description.substr(0, finder2);
+            //some descriptions have quotes and other do not
+            if(finder){
+                description = line.substr(finder+1);
+                finder2 = description.find('"');
+                description = description.substr(0, finder2);
+            }
+            else{
+                getline(inputString, description, ',');
+            }
+          //  cout << "category: " << category << " description : " << description << endl;
 
             //parse to get carbohydrates -> work in progress
 //            string temp;
