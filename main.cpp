@@ -1,64 +1,3 @@
-// #include <iostream>
-// #include <string>
-// #include <fstream>
-// #include <sstream>
-
-// using namespace std;
-
-// class Minerals{
-// private:
-//     //string carb, protein, sodium, fiber, sugar;
-//     string category, description;
-//     unsigned int finder, finder2; // used for parsing "description"
-
-// public:
-
-//    void parsing(){
-//         ifstream inputFile;
-//         inputFile.open("nutritional-facts.csv");
-
-//         string line = "";
-//         while(getline(inputFile, line)){
-
-//             stringstream inputString(line);
-//             getline(inputString, category, ',');
-
-//             //parse to get description
-//             getline(inputString, description, ',');
-
-//             //some descriptions have quotes and other do not
-//             if (description.front() == '"') {
-//                 finder = line.find('"');
-//                 description = line.substr( finder + 1);
-//                 finder2 = description.find('"');
-//                 description = description.substr(0, finder2);
-//             }
-
-//             //parse to get carbohydrates
-//             string carb = "";
-//             for (int i = 0; i < 6; i++) {
-//                 getline(inputString, carb, ',');
-//             }
-
-//             //parse for cholesterol -> in progress, not printing correct value
-//             string cholesterol = "";
-//             for (int i = 0; i < 7; i++) {
-//                 getline(inputString, cholesterol, ',');
-//             }
-//             cout << cholesterol << endl;
-
-//         }
-//    }
-
-
-// };
-// int main() {
-//     Minerals nutrition;
-
-//     nutrition.parsing();
-//     return 0;
-// }
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -82,6 +21,7 @@ public:
   Food(string category, string description, double carbohydrates, double fiber, double protein, double sugar, double sodium)
     : category_(category), description_(description), carbohydrates_(carbohydrates), fiber_(fiber), protein_(protein), sugar_(sugar), sodium_(sodium) {}
 
+  // Accessors
   string category() const { 
     return category_;
   }
@@ -89,11 +29,26 @@ public:
   string description() const {
     return description_;
   }
-  double carbohydrates() const { return carbohydrates_; }
-  double fiber() const { return fiber_; }
-  double protein() const { return protein_; }
-  double sugar() const { return sugar_; }
-  double sodium() const { return sodium_; }
+
+  double carbohydrates() const {
+    return carbohydrates_;
+  }
+
+  double fiber() const {
+    return fiber_;
+  }
+
+  double protein() const {
+    return protein_;
+  }
+
+  double sugar() const {
+    return sugar_;
+  }
+
+  double sodium() const {
+    return sodium_;
+  }
 
 };
 
