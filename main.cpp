@@ -53,14 +53,8 @@ public:
 
 };
 
-int main() {
-  // Create a vector to store the data
-  vector<Food> data;
-
-  // Create a set to store the categories
-  set<string> categories;
-
-  ifstream file("food.csv");
+void parseData(vector<Food>& data, set<string>& categories, string fileName) {
+  ifstream file(fileName);
 
   // Read and discard the header row
   string line;
@@ -72,54 +66,68 @@ int main() {
 
     // Read the relevant columns
     string item;
-    getline(ss, item, '\"'); // category
+    
+    // Category
+    getline(ss, item, '\"');
     getline(ss, item, '\"');
     row.push_back(item);
 
-    getline(ss, item, '\"'); // description
+    // Description
+    getline(ss, item, '\"');
     getline(ss, item, '\"');
     row.push_back(item);
 
+    // Skip the next 4 columns
     for (int i = 0; i < 5; i++) {
-      getline(ss, item, ','); // skip 4 columns
+      getline(ss, item, ',');
     }
 
-    getline(ss, item, '\"'); // carbohydrates
+    // Carbohydrates
+    getline(ss, item, '\"');
     getline(ss, item, '\"');
     row.push_back(item);
 
+    // Skip the next 2 columns
     for (int i = 0; i < 3; i++) {
-      getline(ss, item, ','); // skip 2 columns
+      getline(ss, item, ',');
     }
 
-    getline(ss, item, '\"'); // fiber
+    // Fiber
+    getline(ss, item, '\"');
     getline(ss, item, '\"');
     row.push_back(item);
 
+    // Skip the next 3 columns
     for (int i = 0; i < 4; i++) {
-      getline(ss, item, ','); // skip 3 columns
+      getline(ss, item, ',');
     }
 
-    getline(ss, item, '\"'); // protein
+    // Protein
+    getline(ss, item, '\"');
     getline(ss, item, '\"');
     row.push_back(item);
 
+    // Skip the next 3 columns
     for (int i = 0; i < 4; i++) {
-      getline(ss, item, ','); // skip 3 columns
+      getline(ss, item, ',');
     }
 
-    getline(ss, item, '\"'); // sugar
+    // Sugar
+    getline(ss, item, '\"');
     getline(ss, item, '\"');
     row.push_back(item);
 
+    // Skip the next 12 columns
     for (int i = 0; i < 13; i++) {
-      getline(ss, item, ','); // skip 12 columns
+      getline(ss, item, ',');
     }
 
-    getline(ss, item, '\"'); // sodium
+    // Sodium
+    getline(ss, item, '\"');
     getline(ss, item, '\"');
     row.push_back(item);
 
+    // Extract the data from the row
     string category = row[0];
     string description = row[1];
 
@@ -137,11 +145,27 @@ int main() {
     // Add the category to the set
     categories.insert(category);
   }
+}
 
-    // Print the data
-    for (Food food : data) {
-      cout << food.category() << " " << food.description() << " " << food.carbohydrates() << " " << food.protein() << " " << food.sodium() << " " << food.fiber() << " " << food.sugar() << endl;
-    }
+int main() {
+  // Create a vector to store the data
+  vector<Food> data;
+
+  // Create a set to store the categories
+  set<string> categories;
+
+  // Parse the data
+  parseData(data, categories, "food.csv");
+
+  // Print the categories
+  // for (string category : categories) {
+  //   cout << category << endl;
+  // }
+
+  // Print the data
+  // for (Food food : data) {
+  //   cout << food.category() << " " << food.description() << " " << food.carbohydrates() << " " << food.protein() << " " << food.sodium() << " " << food.fiber() << " " << food.sugar() << endl;
+  // }
 
   return 0;
 }
