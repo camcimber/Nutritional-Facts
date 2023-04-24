@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <set>
 
 using namespace std;
 
@@ -53,7 +54,11 @@ public:
 };
 
 int main() {
+  // Create a vector to store the data
   vector<Food> data;
+
+  // Create a set to store the categories
+  set<string> categories;
 
   ifstream file("food.csv");
 
@@ -128,6 +133,9 @@ int main() {
     // Create a new Food object and add it to the vector
     Food food(category, description, carbohydrates, fiber, protein, sugar, sodium);
     data.push_back(food);
+
+    // Add the category to the set
+    categories.insert(category);
   }
 
     // Print the data
