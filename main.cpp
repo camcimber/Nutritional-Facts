@@ -162,8 +162,9 @@ vector<Food> klargest(const vector<Food>& data, int k, function<double(const Foo
     // stores food objects in descending order based on selected field
     priority_queue<pair<double, Food>> pq;
     for (const auto& food : data) {
+        //fieldSelector used to extract value of the specified field for each food object
         double field = fieldSelector(food);
-        if (pq.size() == k && field < pq.top().first) {
+        if (pq.size() == k && field > pq.top().first) {
             continue;
         }
         pq.push(make_pair(field, food));
