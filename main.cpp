@@ -76,6 +76,9 @@ void parseData(vector<Food>& data, set<string>& categories, string fileName) {
         string item;
 
         // Category
+        // ISSUE: Some of the descriptions have commas in them, so we need to use a different delimiter
+        // ISSUE: Some of the descriptions have quotes in them, so we need to use a different delimiter
+        // ISSUE: Some of the descriptions have both commas and quotes in them, so we need to use a different delimiter
         getline(ss, item, '\"');
         getline(ss, item, '\"');
         row.push_back(item);
@@ -155,16 +158,38 @@ void parseData(vector<Food>& data, set<string>& categories, string fileName) {
     }
 }
 
-vector<Food> klargest(const vector<Food>& data, int k, function<double(const Food&)> fieldSelector) {
+double fieldValueGetter(const Food& food, int field) {
+    switch (field) {
+        case 1:
+            return food.carbohydrates();
+
+        case 2:
+            return food.fiber();
+
+        case 3:
+            return food.protein();
+
+        case 4:
+            return food.sugar();
+
+        case 5:
+            return food.sodium();
+    }
+
+    return 0;
+}
+
+vector<Food> kLargest(const vector<Food>& data, int k, int fieldNumber) {
     // vector to return
     vector<Food> newData;
 
-    // stores food objects in descending order based on selected field
-    priority_queue<pair<double, Food>> pq;
-    for (const auto& food : data) {
-        //fieldSelector used to extract value of the specified field for each food object
-        double field = fieldSelector(food);
-        if (pq.size() == k && field > pq.top().first) {
+    // priority queue to store the k largest elements
+    // Min heap
+    priority_queue<pair<double, Food>, vector<pair<double, Food>>, greater<pair<double, Food>>> pq;
+
+    for (const Food& food : data) {
+        double field = fieldValueGetter(food, fieldNumber);
+        if (pq.size() == k && field < pq.top().first) {
             continue;
         }
         pq.push(make_pair(field, food));
@@ -174,13 +199,45 @@ vector<Food> klargest(const vector<Food>& data, int k, function<double(const Foo
     }
 
     while (!pq.empty()) {
-        newData.push_back(pq.top().second);
+        auto temp = pq.top();
+        newData.push_back(temp.second);
         pq.pop();
     }
     reverse(newData.begin(), newData.end());
     return newData;
 }
 
+vector<Food> kSmallest(const vector<Food>& data, int k, int fieldNumber) {
+    // vector to return
+    vector<Food> newData;
+
+    // priority queue to store the k smallest elements
+    // Max heap
+    priority_queue<pair<double, Food>, vector<pair<double, Food>>, less<pair<double, Food>>> pq;
+
+    for (const Food& food : data) {
+        double field = fieldValueGetter(food, fieldNumber);
+        if (pq.size() == k && field < pq.top().first) {
+            continue;
+        }
+        pq.push(make_pair(field, food));
+        if (pq.size() > k) {
+            pq.pop();
+        }
+    }
+    while (!pq.empty()) {
+        auto temp = pq.top();
+        newData.push_back(temp.second);
+        pq.pop();
+    }
+    // reverse the order of elements in the final vector
+    reverse(newData.begin(), newData.end());
+    return newData;
+}
+
+void insertionSort(vector<Food> data){
+
+}
 
 
 int main() {
@@ -194,8 +251,7 @@ int main() {
     parseData(data, categories, "food.csv");
 
     //example of how to call klargest function
-    vector<Food> largestCarbs = klargest(data, 3, [](const Food& food) {return food.carbohydrates(); });
-
+    vector<Food> largestCarbs = kLargest(data, 5, 1);
 
     // Print the categories
     // for (string category : categories) {
@@ -206,6 +262,10 @@ int main() {
     // for (Food food : data) {
     //   cout << food.category() << " " << food.description() << " " << food.carbohydrates() << " " << food.protein() << " " << food.sodium() << " " << food.fiber() << " " << food.sugar() << endl;
     // }
+
+    for (int i = 0; i < largestCarbs.size(); i++) {
+        cout << largestCarbs[i].category() << " " << largestCarbs[i].description() << " " << largestCarbs[i].carbohydrates() << endl;
+    }
 
     return 0;
 }
