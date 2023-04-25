@@ -235,8 +235,22 @@ vector<Food> kSmallest(const vector<Food>& data, int k, int fieldNumber) {
     return newData;
 }
 
-void insertionSort(vector<Food> data){
+void insertionSort(vector<Food> data, int fieldNumber){
+    for (int i = 1; i < data.size(); i++) {
+        //temp food object
+        Food& key = data[i];
 
+        int j = i - 1;
+        double currValue = fieldValueGetter(data[j], fieldNumber);
+        double keyValue = fieldValueGetter(key, fieldNumber);
+
+        //checks stay in bounds and if curr element is greater than key element
+        while (j >= 0 && currValue > keyValue) {
+            data[j + 1] = data[j];
+            j--;
+        }
+        data[j + 1] = key;
+    }
 }
 
 
