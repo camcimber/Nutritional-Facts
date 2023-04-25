@@ -1,4 +1,4 @@
-# Install script for directory: /Users/camryncimber/CLionProjects/Nutritional-Facts
+# Install script for directory: /Users/camryncimber/Documents/GitHub/Nutritional-Facts
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/camryncimber/CLionProjects/Nutritional-Facts/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/camryncimber/Documents/GitHub/Nutritional-Facts/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

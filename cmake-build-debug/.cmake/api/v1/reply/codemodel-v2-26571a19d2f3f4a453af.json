@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/camryncimber/CLionProjects/Nutritional-Facts/cmake-build-debug",
-		"source" : "/Users/camryncimber/CLionProjects/Nutritional-Facts"
+		"build" : "/Users/camryncimber/Documents/GitHub/Nutritional-Facts/cmake-build-debug",
+		"source" : "/Users/camryncimber/Documents/GitHub/Nutritional-Facts"
 	},
 	"version" : 
 	{
