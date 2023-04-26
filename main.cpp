@@ -160,7 +160,7 @@ void parseData(map<string, vector<Food>>& data, string fileName) {
 
         // Create a new Food object and add it to the vector
         Food food(category, description, carbohydrates, fiber, protein, sugar, sodium);
-        
+
         // Add the food to the map
         data[category].push_back(food);
 
