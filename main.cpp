@@ -262,6 +262,8 @@ void insertionSort(vector<Food> data, int fieldNumber){
 
 
 int main() {
+    cout << "Welcome to Macro-Tracker! " << endl;
+
     // Create a map to store the data
     map<string, vector<Food>> data;
 
@@ -269,7 +271,13 @@ int main() {
     parseData(data, "food.csv");
 
     // User input
-    string chosenCategory = "Milk";
+    cout <<"\nThese are your category options:" << endl;
+    string chosenCategory = "";
+    for (auto it = data.begin(); it != data.end(); ++it) {
+        cout << it->first << endl;
+    }
+    cout << "\nPlease choose a category: ";
+    cin >> chosenCategory;
 
     // Print the data of the chosen category
     int count = 0;
