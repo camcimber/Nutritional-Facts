@@ -76,66 +76,72 @@ void parseData(vector<Food>& data, set<string>& categories, string fileName) {
         string item;
 
         // Category
-        // ISSUE: Some of the descriptions have commas in them, so we need to use a different delimiter
-        // ISSUE: Some of the descriptions have quotes in them, so we need to use a different delimiter
-        // ISSUE: Some of the descriptions have both commas and quotes in them, so we need to use a different delimiter
-        getline(ss, item, '\"');
-        getline(ss, item, '\"');
+        getline(ss, item, ',');
         row.push_back(item);
 
         // Description
-        getline(ss, item, '\"');
-        getline(ss, item, '\"');
-        row.push_back(item);
+        getline(ss, item, ',');
+        // If the description is in quotes, read until the end of the quotes
+        if (item.front() == '\"') {
+            // Read until the end of the quotes
+            while (item.back() != '\"') {
+                string temp;
+                getline(ss, temp, ',');
+                item += "," + temp;
+            }
+
+            // Remove the quotes from the description
+            item.erase(0, 1);
+            item.pop_back();
+            row.push_back(item);
+
+        } else {
+            row.push_back(item);
+        }
 
         // Skip the next 4 columns
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             getline(ss, item, ',');
         }
 
         // Carbohydrates
-        getline(ss, item, '\"');
-        getline(ss, item, '\"');
+        getline(ss, item, ',');
         row.push_back(item);
 
         // Skip the next 2 columns
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             getline(ss, item, ',');
         }
 
         // Fiber
-        getline(ss, item, '\"');
-        getline(ss, item, '\"');
+        getline(ss, item, ',');
         row.push_back(item);
 
         // Skip the next 3 columns
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             getline(ss, item, ',');
         }
 
         // Protein
-        getline(ss, item, '\"');
-        getline(ss, item, '\"');
+        getline(ss, item, ',');
         row.push_back(item);
 
         // Skip the next 3 columns
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             getline(ss, item, ',');
         }
 
         // Sugar
-        getline(ss, item, '\"');
-        getline(ss, item, '\"');
+        getline(ss, item, ',');
         row.push_back(item);
 
         // Skip the next 12 columns
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 12; i++) {
             getline(ss, item, ',');
         }
 
         // Sodium
-        getline(ss, item, '\"');
-        getline(ss, item, '\"');
+        getline(ss, item, ',');
         row.push_back(item);
 
         // Extract the data from the row
@@ -277,9 +283,9 @@ int main() {
     //   cout << food.category() << " " << food.description() << " " << food.carbohydrates() << " " << food.protein() << " " << food.sodium() << " " << food.fiber() << " " << food.sugar() << endl;
     // }
 
-    for (int i = 0; i < largestCarbs.size(); i++) {
-        cout << largestCarbs[i].category() << " " << largestCarbs[i].description() << " " << largestCarbs[i].carbohydrates() << endl;
-    }
+    // for (int i = 0; i < largestCarbs.size(); i++) {
+    //     cout << largestCarbs[i].category() << " " << largestCarbs[i].description() << " " << largestCarbs[i].carbohydrates() << endl;
+    // }
 
     return 0;
 }
