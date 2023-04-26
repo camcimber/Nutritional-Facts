@@ -289,12 +289,12 @@ int main() {
     parseData(data, "food.csv");
 
     // User input
-    cout <<"\nThese are your category options:" << endl;
+    cout <<"\nPlease click the link to choose a category! " << endl;
+    cout << "https://docs.google.com/spreadsheets/d/1EgpY9CooYl7U-zW8W-Q3s64Vcg45VvcGiG8rpqVAysk/edit?usp=sharing ";
     string chosenCategory = "";
-    for (auto it = data.begin(); it != data.end(); ++it) {
-        cout << it->first << endl;
-    }
-    cout << "\nPlease choose a category: ";
+
+    cout << endl;
+    cout << "\nWhat category would you like to choose? (Case sensitive)" << endl;
     cin >> chosenCategory;
 
     // Check if the category exists and ask for another category if it doesn't
@@ -303,25 +303,80 @@ int main() {
         cin >> chosenCategory;
     }
 
-    // Print the data of the chosen category
+    cout << "\nGreat! What macronutrient would you like to see? Please type number 1-6" << endl;
+    cout << "1. Carbohydrates" << endl;
+    cout << "2. Fiber" << endl;
+    cout << "3. Protein" << endl;
+    cout << "4. Sugar" << endl;
+    cout << "5. Sodium" << endl;
+    int macroNum;
+    cin >> macroNum;
+
+    string measurement = "";
+    if(macroNum == 1 || macroNum == 3 || macroNum == 4 || macroNum == 2){
+        measurement = "g";
+    }
+    else if(macroNum == 5){
+        measurement = "mg";
+    }
+
+    while(macroNum < 1 || macroNum > 5){
+        cout << "That number is out of bounds. Select another number: ";
+        cin >> macroNum;
+    }
+
+    cout << "\nWould you like the highest or lowest values? Please type either 1 or 2" << endl;
+    cout << "1. Highest" << endl;
+    cout << "2. Lowest" << endl;
+    int rank;
+    cin >> rank;
+    string decision = "";
+    if (rank == 1){
+        decision = "top";
+    }
+    else if(rank == 2){
+        decision = "bottom";
+    }
+
+    while(rank < 1 || rank > 2){
+        cout << "That number is out of bounds. Select another number: ";
+        cin >> rank;
+    }
+
     int count = 0;
+    //get the total number of items in specified category
     for (Food food : data[chosenCategory]) {
-        cout << food.category() << ": " << food.description() << " " << food.carbohydrates() << " " << food.protein() << " " << food.sodium() << " " << food.fiber() << " " << food.sugar() << endl;
         count++;
     }
-    cout << "Total number of items in " << chosenCategory << ": " << count << endl;
+    cout << "\nThere is a total number of items in " << chosenCategory << ": " << count << endl;
+    cout << "How many of the " << chosenCategory << " items would you like to see? (i.e. Top 10 Items)" << endl;
+    int numItems;
+    cin >> numItems;
 
-    //example of how to call klargest function
-    //vector<Food> largestCarbs = kLargest(data[chosenCategory], 5, 1);
+    while(numItems > count || numItems < 0){
+        cout << "That number is out of bounds. Select another number: ";
+        cin >> numItems;
+    }
 
-    // Print the data
-    // for (Food food : data) {
-    //   cout << food.category() << " " << food.description() << " " << food.carbohydrates() << " " << food.protein() << " " << food.sodium() << " " << food.fiber() << " " << food.sugar() << endl;
-    // }
+    cout << "Displaying the " << decision << " " << numItems << " items in the " << chosenCategory << " category:"<< endl;
+    // call sort function here !
+    // then the data to print will be in the correct order
+    // Print the data of the chosen category
 
-    // for (int i = 0; i < largestCarbs.size(); i++) {
-    //     cout << largestCarbs[i].category() << " " << largestCarbs[i].description() << " " << largestCarbs[i].carbohydrates() << endl;
-    // }
+    int tempCount = 1;
+//    for (Food food : data[chosenCategory]) {
+      //  cout << \n << tempCount  << ". "<< food.description() << "          " << food.carbohydrates() << measurement << endl;
+//        tempCount++;
+//    }
+
+
+
+
+    vector<Food> largestCarbs = kLargest(data[chosenCategory], 5, 1);
+
+     for (int i = 0; i < largestCarbs.size(); i++) {
+         cout << largestCarbs[i].category() << " " << largestCarbs[i].description() << " " << largestCarbs[i].carbohydrates() << endl;
+     }
 
     return 0;
 }
