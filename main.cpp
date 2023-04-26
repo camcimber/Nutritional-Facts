@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <map>
 #include <algorithm>
 #include <queue>
 
@@ -61,7 +62,7 @@ public:
 
 };
 
-void parseData(vector<Food>& data, set<string>& categories, string fileName) {
+void parseData(map<string, vector<Food>>& data, string fileName) {
     ifstream file(fileName);
 
     // Read and discard the header row
@@ -157,10 +158,10 @@ void parseData(vector<Food>& data, set<string>& categories, string fileName) {
 
         // Create a new Food object and add it to the vector
         Food food(category, description, carbohydrates, fiber, protein, sugar, sodium);
-        data.push_back(food);
+        
+        // Add the food to the map
+        data[category].push_back(food);
 
-        // Add the category to the set
-        categories.insert(category);
     }
 }
 
@@ -261,22 +262,25 @@ void insertionSort(vector<Food> data, int fieldNumber){
 
 
 int main() {
-    // Create a vector to store the data
-    vector<Food> data;
-
-    // Create a set to store the categories
-    set<string> categories;
+    // Create a map to store the data
+    map<string, vector<Food>> data;
 
     // Parse the data
-    parseData(data, categories, "food.csv");
+    parseData(data, "food.csv");
+
+    // User input
+    string chosenCategory = "Milk";
+
+    // Print the data of the chosen category
+    int count = 0;
+    for (Food food : data[chosenCategory]) {
+        cout << food.category() << ": " << food.description() << " " << food.carbohydrates() << " " << food.protein() << " " << food.sodium() << " " << food.fiber() << " " << food.sugar() << endl;
+        count++;
+    }
+    cout << "Total number of items in " << chosenCategory << ": " << count << endl;
 
     //example of how to call klargest function
-    vector<Food> largestCarbs = kLargest(data, 5, 1);
-
-    // Print the categories
-    // for (string category : categories) {
-    //   cout << category << endl;
-    // }
+    //vector<Food> largestCarbs = kLargest(data[chosenCategory], 5, 1);
 
     // Print the data
     // for (Food food : data) {
