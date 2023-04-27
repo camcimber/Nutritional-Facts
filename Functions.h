@@ -13,10 +13,17 @@ using namespace std;
 void parseData(unordered_map<string, vector<Food>>& data, string fileName) {
     ifstream file(fileName);
 
+    // Check if the file opened successfully
+    if (!file.is_open()) {
+        cout << fileName << " could not open." << endl;
+        return;
+    }
+
     // Read and discard the header row
     string line;
     getline(file, line);
 
+    // Read the rest of the file
     while (getline(file, line)) {
         stringstream ss(line);
         vector<string> row;
@@ -126,19 +133,21 @@ void printSortedData(const vector<Food>& data, int fieldNumber, int k, string me
             maxDesLength = descriptionLength;
         }
     }
+    // Add 4 to the max description length for formatting
     size_t fieldWidth = maxDesLength + 4;
 
+    // Print the header
     cout << setw(4) << "Rank" << " | "
          << setw(fieldWidth) << left << "Description" << " | "
          << setw(10) << right << macroChosen << " (" << measurement << setw(5) << left << ")" << endl;
 
-// Print a separator line
+    // Print a separator line
     cout << setfill('-') << setw(4) << "" << "-+-"
          << setw(fieldWidth) << "" << "-+-"
          << setw(10) << "" << "-+-"
          << setw(7) << "" << setfill(' ') << endl;
 
-// Print the data in a table format
+    // Print the data in a table format
     for (int i = 0; i < k; i++) {
         cout << setw(4) << i + 1 << " | "
              << setw(fieldWidth) << left << data[i].description() << " | "

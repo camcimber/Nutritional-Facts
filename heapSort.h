@@ -48,7 +48,6 @@ vector<Food> kLargest(vector<Food>& data, int k, int fieldNumber) {
 }
 
 vector<Food> kSmallest(vector<Food>& data, int k, int fieldNumber) {
-
     // vector to return
     vector<Food> newData;
 

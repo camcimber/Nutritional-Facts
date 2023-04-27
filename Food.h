@@ -6,6 +6,7 @@ using namespace std;
 
 class Food {
 
+    // Fields
     string category_;
     string description_;
     double carbohydrates_;
@@ -14,6 +15,7 @@ class Food {
     double sugar_;
     double sodium_;
 
+    // Fields to compare the macronutrients
     bool compare_carbohydrates = false;
     bool compare_fiber = false;
     bool compare_protein = false;
@@ -108,6 +110,7 @@ double Food::getMacro(int field) const {
     return 0;
 }
 
+// Set the field comparison to true of the field number
 void Food::fieldComparisonSetTrue(int field) {
     switch (field) {
         case 1:
@@ -132,6 +135,7 @@ void Food::fieldComparisonSetTrue(int field) {
     }
 }
 
+// Set all the field comparison to false
 void Food::fieldComparisonSetFalse() {
     compare_carbohydrates = false;
     compare_fiber = false;

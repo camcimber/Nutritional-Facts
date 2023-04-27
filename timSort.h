@@ -38,6 +38,7 @@ void merge(vector<Food>& arr, int fieldNumber, int l, int m, int r) {
     vector<Food> left;
     vector<Food> right;
 
+    // Copy data to temp vectors left and right
     for (int i = 0; i < len1; i++) {
         left.push_back(arr[l + i]);
     }
@@ -57,15 +58,19 @@ void merge(vector<Food>& arr, int fieldNumber, int l, int m, int r) {
 
         double leftValue = left[i].getMacro(fieldNumber);
         double rightValue = right[j].getMacro(fieldNumber);
+
+        // If leftValue <= rightValue, then put left[i] in arr[k] and increment i
         if (leftValue <= rightValue) {
             arr[k] = left[i];
             i++;
         
+        // Else put right[j] in arr[k] and increment j
         } else {
             arr[k] = right[j];
             j++;
         }
 
+        // Increment k
         k++;
     }
  

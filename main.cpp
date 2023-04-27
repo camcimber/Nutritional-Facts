@@ -111,6 +111,7 @@ int main() {
 
         cout << endl;
 
+        // Create vectors to store the sorted data
         vector<Food> heapSortVector;
         vector<Food> timSortVector;
 
@@ -122,12 +123,14 @@ int main() {
         if (rank == 1) {
             // Time the heap sort
             auto start = chrono::steady_clock::now();
+            // Heap sort
             heapSortVector = kLargest(data[chosenCategory], numItems, macroNum);
             auto end = chrono::steady_clock::now();
             diffHeap = end - start;
 
             // Time the Tim sort
             start = chrono::steady_clock::now();
+            // Tim sort
             timSortVector = timSort(data[chosenCategory], macroNum, true);
             end = chrono::steady_clock::now();
             diffTim = end - start;
