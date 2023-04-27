@@ -9,60 +9,9 @@
 #include <queue>
 #include <thread>
 #include <chrono>
+#include "Food.h"
 
 using namespace std;
-
-class Food {
-
-    string category_;
-    string description_;
-    double carbohydrates_;
-    double fiber_;
-    double protein_;
-    double sugar_;
-    double sodium_;
-
-public:
-    // Constructor to initialize the fields
-    Food(string category, string description, double carbohydrates, double fiber, double protein, double sugar, double sodium)
-            : category_(category), description_(description), carbohydrates_(carbohydrates), fiber_(fiber), protein_(protein), sugar_(sugar), sodium_(sodium) {}
-
-    // Accessors
-    string category() const {
-        return category_;
-    }
-
-    string description() const {
-        return description_;
-    }
-
-    double carbohydrates() const {
-        return carbohydrates_;
-    }
-
-    double fiber() const {
-        return fiber_;
-    }
-
-    double protein() const {
-        return protein_;
-    }
-
-    double sugar() const {
-        return sugar_;
-    }
-
-    double sodium() const {
-        return sodium_;
-    }
-
-    // Define the less-than operator to compare based on the macronutrient
-    bool operator<(const Food& other) const {
-        return carbohydrates_ < other.carbohydrates_;
-    }
-
-
-};
 
 void parseData(map<string, vector<Food>>& data, string fileName) {
     ifstream file(fileName);
@@ -167,27 +116,6 @@ void parseData(map<string, vector<Food>>& data, string fileName) {
     }
 }
 
-double fieldValueGetter(const Food& food, int field) {
-    switch (field) {
-        case 1:
-            return food.carbohydrates();
-
-        case 2:
-            return food.fiber();
-
-        case 3:
-            return food.protein();
-
-        case 4:
-            return food.sugar();
-
-        case 5:
-            return food.sodium();
-    }
-
-    return 0;
-}
-
 vector<Food> kLargest(const vector<Food>& data, int k, int fieldNumber) {
     // vector to return
     vector<Food> newData;
@@ -199,7 +127,7 @@ vector<Food> kLargest(const vector<Food>& data, int k, int fieldNumber) {
     // iterate through the data
     for (const Food& food : data) {
         // get the field value
-        double field = fieldValueGetter(food, fieldNumber);
+        double field = food.fieldValueGetter(fieldNumber);
         // if the priority queue is full and the field value is greater than the top element, skip
         if (pq.size() == k && field < pq.top().first) {
             continue;
@@ -234,7 +162,7 @@ vector<Food> kSmallest(const vector<Food>& data, int k, int fieldNumber) {
     // iterate through the data
     for (const Food& food : data) {
         // get the field value
-        double field = fieldValueGetter(food, fieldNumber);
+        double field = food.fieldValueGetter(fieldNumber);
         // if the priority queue is full and the field value is smaller than the top element, skip
         if (pq.size() == k && field < pq.top().first) {
             continue;
@@ -263,8 +191,8 @@ void insertionSort(vector<Food> data, int fieldNumber){
         Food& key = data[i];
 
         int j = i - 1;
-        double currValue = fieldValueGetter(data[j], fieldNumber);
-        double keyValue = fieldValueGetter(key, fieldNumber);
+        double currValue = data[j].fieldValueGetter(fieldNumber);
+        double keyValue = key.fieldValueGetter(fieldNumber);
 
         //checks stay in bounds and if curr element is greater than key element
         while (j >= 0 && currValue > keyValue) {
@@ -275,6 +203,12 @@ void insertionSort(vector<Food> data, int fieldNumber){
     }
 }
 
+void printSortedData(const vector<Food>& data, int fieldNumber, string measurement) {
+    // Print the data of the chosen category
+    for (int i = 0; i < data.size(); i++) {
+        cout << i + 1 << ". " << data[i].description() << " " << data[i].fieldValueGetter(fieldNumber) << measurement << endl;
+    }
+}
 
 int main() {
     cout << "Welcome to Macro-Tracker! " << endl;
@@ -290,20 +224,20 @@ int main() {
 
     // User input
     cout <<"\nPlease click the link to choose a category! " << endl;
-    cout << "https://docs.google.com/spreadsheets/d/1EgpY9CooYl7U-zW8W-Q3s64Vcg45VvcGiG8rpqVAysk/edit?usp=sharing ";
+    cout << "https://docs.google.com/spreadsheets/d/1EgpY9CooYl7U-zW8W-Q3s64Vcg45VvcGiG8rpqVAysk/edit?usp=sharing" << endl;
     string chosenCategory = "";
 
     cout << endl;
-    cout << "\nWhat category would you like to choose? (Case sensitive)" << endl;
+    cout << "Select a catergory (Case sensitive): ";
     cin >> chosenCategory;
 
     // Check if the category exists and ask for another category if it doesn't
     while (data.find(chosenCategory) == data.end()) {
-        cout << "Category does not exist. Choose another category:" << endl;
+        cout << "Category does not exist. Choose another category: ";
         cin >> chosenCategory;
     }
 
-    cout << "\nGreat! What macronutrient would you like to see? Please type number 1-6" << endl;
+    cout << "\nGreat! What macronutrient would you like to see? Please type number 1-5" << endl;
     cout << "1. Carbohydrates" << endl;
     cout << "2. Fiber" << endl;
     cout << "3. Protein" << endl;
@@ -313,14 +247,14 @@ int main() {
     cin >> macroNum;
 
     string measurement = "";
-    if(macroNum == 1 || macroNum == 3 || macroNum == 4 || macroNum == 2){
+    if (macroNum == 1 || macroNum == 3 || macroNum == 4 || macroNum == 2) {
         measurement = "g";
-    }
-    else if(macroNum == 5){
+
+    } else if (macroNum == 5) {
         measurement = "mg";
     }
 
-    while(macroNum < 1 || macroNum > 5){
+    while (macroNum < 1 || macroNum > 5) {
         cout << "That number is out of bounds. Select another number: ";
         cin >> macroNum;
     }
@@ -330,15 +264,16 @@ int main() {
     cout << "2. Lowest" << endl;
     int rank;
     cin >> rank;
+
     string decision = "";
-    if (rank == 1){
+    if (rank == 1) {
         decision = "top";
-    }
-    else if(rank == 2){
+
+    } else if (rank == 2) {
         decision = "bottom";
     }
 
-    while(rank < 1 || rank > 2){
+    while (rank < 1 || rank > 2) {
         cout << "That number is out of bounds. Select another number: ";
         cin >> rank;
     }
@@ -358,6 +293,7 @@ int main() {
         cin >> numItems;
     }
 
+    cout << endl;
     cout << "Displaying the " << decision << " " << numItems << " items in the " << chosenCategory << " category:"<< endl;
     // call sort function here !
     // then the data to print will be in the correct order
@@ -369,14 +305,17 @@ int main() {
 //        tempCount++;
 //    }
 
+    vector<Food> heapSortVector;
+    vector<Food> timSortVector;
 
+    if (rank == 1) {
+        heapSortVector = kLargest(data[chosenCategory], numItems, macroNum);
 
+    } else {
+        heapSortVector = kSmallest(data[chosenCategory], numItems, macroNum);
+    }
 
-    vector<Food> largestCarbs = kLargest(data[chosenCategory], 5, 1);
-
-     for (int i = 0; i < largestCarbs.size(); i++) {
-         cout << largestCarbs[i].category() << " " << largestCarbs[i].description() << " " << largestCarbs[i].carbohydrates() << endl;
-     }
+    printSortedData(heapSortVector, macroNum, measurement);
 
     return 0;
 }
