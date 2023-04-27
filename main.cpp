@@ -12,6 +12,7 @@
 #include <iomanip>
 #include "Food.h"
 #include "heapSort.h"
+#include "timSort.h"
 
 using namespace std;
 
@@ -140,17 +141,15 @@ void printSortedData(const vector<Food>& data, int fieldNumber, string measureme
     // FIXME: Print the data in a table format
     cout << "Rank" << setw(fieldWidth) << "Description" << setw(8) << right << macroChosen << " " << setw(4) << left << "(" << measurement << ")" << endl;
     for (int i = 0; i < data.size(); i++) {
-        cout << i + 1 << setw(3) << ". ";
+        cout << setw(3) << i + 1 << ". ";
         cout << setw(fieldWidth) << data[i].description()
         << setw(8) << right << data[i].fieldValueGetter(fieldNumber) << " " << setw(4) << left << measurement << endl;
     }
 }
 
 int main() {
+    // Welcome message
     cout << "Welcome to Macro-Tracker! " << endl;
-
-    // Stop for a 5 seconds
-    //this_thread::sleep_for(chrono::milliseconds(5000));
 
     // Create a map to store the data
     map<string, vector<Food>> data;
@@ -243,18 +242,54 @@ int main() {
     }
 
     cout << endl;
-    cout << decision1 << " " << numItems << " items with the " << decision2 << " " << macroChosen << " value in the " << chosenCategory << " category:" << endl;
 
     vector<Food> heapSortVector;
     vector<Food> timSortVector;
 
+    chrono::duration<double, milli> diffHeap;
+    chrono::duration<double, milli> diffTim;
     if (rank == 1) {
+        // Time the heap sort
+        auto start = chrono::steady_clock::now();
         heapSortVector = kLargest(data[chosenCategory], numItems, macroNum);
+        auto end = chrono::steady_clock::now();
+        diffHeap = end - start;
+
+        // Time the Tim sort
+        start = chrono::steady_clock::now();
+        timSortVector = timSort(data[chosenCategory], macroNum, true);
+        end = chrono::steady_clock::now();
+        diffTim = end - start;
 
     } else {
+        // Time the heap sort
+        auto start = chrono::steady_clock::now();
+        // Heap sort
         heapSortVector = kSmallest(data[chosenCategory], numItems, macroNum);
+        auto end = chrono::steady_clock::now();
+        diffHeap = end - start;
+
+        // Time the Tim sort
+        start = chrono::steady_clock::now();
+        timSortVector = timSort(data[chosenCategory], macroNum, false);
+        end = chrono::steady_clock::now();
+        diffTim = end - start;
     }
 
+    // Print the time difference
+    cout << "Heap sort time: " << chrono::duration <double, milli> (diffHeap).count() << " ms" << endl;
+    cout << "Tim sort time: " << chrono::duration <double, milli> (diffTim).count() << " ms" << endl;
+    if (diffHeap == diffTim) {
+        cout << "Both algorithms took the same amount of time." << endl;
+    } else if (diffHeap < diffTim) {
+        cout << "Heap sort was faster by " << chrono::duration <double, milli> (diffTim - diffHeap).count() << " ms" << endl;
+    } else {
+        cout << "Tim sort was faster by " << chrono::duration <double, milli> (diffHeap - diffTim).count() << " ms" << endl;
+    }
+
+    cout << endl;
+    cout << decision1 << " " << numItems << " items with the " << decision2 << " " << macroChosen << " value in the " << chosenCategory << " category:" << endl;
+    
     cout << endl;
     printSortedData(heapSortVector, macroNum, measurement, macroChosen);
 
