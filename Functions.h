@@ -10,13 +10,14 @@
 
 using namespace std;
 
-void parseData(unordered_map<string, vector<Food>>& data, string fileName) {
+bool parseData(unordered_map<string, vector<Food>>& data, string fileName) {
     ifstream file(fileName);
 
     // Check if the file opened successfully
     if (!file.is_open()) {
+        cout << endl;
         cout << fileName << " could not open." << endl;
-        return;
+        return false;
     }
 
     // Read and discard the header row
@@ -118,6 +119,7 @@ void parseData(unordered_map<string, vector<Food>>& data, string fileName) {
         data[category].push_back(food);
 
     }
+    return true;
 }
 
 void printSortedData(const vector<Food>& data, int fieldNumber, int k, string measurement, string macroChosen) {

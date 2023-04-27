@@ -18,8 +18,12 @@ int main() {
     unordered_map<string, vector<Food>> data;
 
     // Parse the data
-    parseData(data, "food.csv");
-
+    if (!parseData(data, "food.csv")) {
+        cout << "\nMake sure the file is in the same directory as the program." << endl;
+        cout << "Exiting program..." << endl;
+        return -1;
+    }
+    
     char again = 'Y';
 
     while (again == 'Y' || again == 'y') {
