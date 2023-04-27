@@ -34,12 +34,12 @@ int main() {
 
         cout << endl;
         cout << "Select a catergory (Case sensitive): ";
-        cin >> chosenCategory;
+        getline(cin, chosenCategory);
 
         // Check if the category exists and ask for another category if it doesn't
         while (data.find(chosenCategory) == data.end()) {
             cout << "Category does not exist. Choose another category: ";
-            cin >> chosenCategory;
+            getline(cin, chosenCategory);
         }
 
         cout << "\nGreat! What macronutrient would you like to see? Please type number 1-5" << endl;
