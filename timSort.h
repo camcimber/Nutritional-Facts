@@ -5,27 +5,28 @@
 // Insertion sort in ascending order
 void insertionSortAscending(vector<Food>& arr, int fieldNumber, int l, int r) {
     for (int i = 1; i < arr.size(); i++) {
-        //temp food object
-        Food& key = arr[i];
 
         int j = i - 1;
-        double currValue = arr[j].fieldValueGetter(fieldNumber);
-        double keyValue = key.fieldValueGetter(fieldNumber);
+        double prevValue = arr[j].fieldValueGetter(fieldNumber);
+        double currValue = arr[i].fieldValueGetter(fieldNumber);
 
         //checks stay in bounds and if curr element is greater than key element
-        while (j >= 0 && currValue > keyValue) {
+        while (j >= 0 && prevValue > currValue) {
             // swap
-            arr[j + 1] = arr[j];
+            swap(arr[j + 1], arr[j]);
+            // Food temp = arr[j + 1];
+            // arr[j + 1] = arr[j];
+            // arr[j] = temp;
             j--;
             
             // update currValue if j is still in bounds
             if (j >= 0) {
-                currValue = arr[j].fieldValueGetter(fieldNumber);
+                prevValue = arr[j].fieldValueGetter(fieldNumber);
             }
         }
 
-        // insert key
-        arr[j + 1] = key;
+        // insert curr element
+        arr[j + 1] = arr[i];
     }
 }
 
@@ -168,10 +169,14 @@ void mergeDescending(vector<Food>& arr, int fieldNumber, int l, int m, int r) {
 // array[0...n-1] (similar to merge sort)
 vector<Food> timSort(const vector<Food>& data, int fieldNumber, bool ascending) {
     //copy data into arr
-    vector<Food> arr = data;
+    vector<Food> arr(data);
+    for (int i = 0; i < arr.size(); i++) {
+        cout << arr[i].fieldValueGetter(fieldNumber) << endl;
+    }
+    cout << endl;
 
     int RUN = 16;
-    int n = data.size();
+    int n = arr.size();
 
     // Sort individual subarrays of size RUN
     for (int i = 0; i < n; i += RUN) {
@@ -213,6 +218,13 @@ vector<Food> timSort(const vector<Food>& data, int fieldNumber, bool ascending) 
                 }
             }
         }
+    }
+
+    // Reverse arr
+    reverse(arr.begin(), arr.end());
+
+    for (int i = 0; i < arr.size(); i++) {
+        cout << arr[i].fieldValueGetter(fieldNumber) << endl;
     }
 
     return arr;

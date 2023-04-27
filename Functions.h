@@ -113,7 +113,7 @@ void parseData(unordered_map<string, vector<Food>>& data, string fileName) {
     }
 }
 
-void printSortedData(const vector<Food>& data, int fieldNumber, string measurement, string macroChosen) {
+void printSortedData(const vector<Food>& data, int fieldNumber, int k, string measurement, string macroChosen) {
     
     // Capitalize the first letter of the macro
     macroChosen[0] = toupper(macroChosen[0]);
@@ -129,7 +129,7 @@ void printSortedData(const vector<Food>& data, int fieldNumber, string measureme
     size_t fieldWidth = maxDesLength + 4;
 
     cout << setw(4) << "Rank" << " | "
-         << setw(fieldWidth) << "Description" << " | "
+         << setw(fieldWidth) << left << "Description" << " | "
          << setw(10) << right << macroChosen << " (" << measurement << setw(5) << left << ")" << endl;
 
 // Print a separator line
@@ -139,7 +139,7 @@ void printSortedData(const vector<Food>& data, int fieldNumber, string measureme
          << setw(7) << "" << setfill(' ') << endl;
 
 // Print the data in a table format
-    for (int i = 0; i < data.size(); i++) {
+    for (int i = 0; i < k; i++) {
         cout << setw(4) << i + 1 << " | "
              << setw(fieldWidth) << left << data[i].description() << " | "
              << setw(8) << right << data[i].fieldValueGetter(fieldNumber) << " " << setw(5) << left << measurement << endl;

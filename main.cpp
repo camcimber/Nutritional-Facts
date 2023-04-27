@@ -102,7 +102,7 @@ int main() {
         int numItems;
         cin >> numItems;
 
-        while (numItems > data[chosenCategory].size() || numItems < 0) {
+        while (numItems > data[chosenCategory].size() || numItems <= 0) {
             cout << "That number is out of bounds. Select another number: ";
             cin >> numItems;
         }
@@ -137,6 +137,7 @@ int main() {
 
             // Time the Tim sort
             start = chrono::steady_clock::now();
+            // Tim sort
             timSortVector = timSort(data[chosenCategory], macroNum, false);
             end = chrono::steady_clock::now();
             diffTim = end - start;
@@ -157,7 +158,11 @@ int main() {
         cout << decision1 << " " << numItems << " items with the " << decision2 << " " << macroChosen << " value in the " << chosenCategory << " category:" << endl;
         
         cout << endl;
-        printSortedData(heapSortVector, macroNum, measurement, macroChosen);
+        printSortedData(heapSortVector, macroNum, numItems, measurement, macroChosen);
+        cout << endl;
+
+        // Test to see if the two algorithms produce the same results
+        printSortedData(timSortVector, macroNum, numItems, measurement, macroChosen);
         cout << endl;
 
         cout << "Would you like to see another category? (Y/N): ";
