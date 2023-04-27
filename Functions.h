@@ -120,8 +120,8 @@ void printSortedData(const vector<Food>& data, int fieldNumber, int k, string me
 
     //get the longest description length for formatting
     size_t maxDesLength = 0;
-    for (const auto& food : data) {
-        size_t descriptionLength = food.description().size();
+    for (int i = 0; i < k; i++) {
+        size_t descriptionLength = data[i].description().size();
         if (descriptionLength > maxDesLength) {
             maxDesLength = descriptionLength;
         }
