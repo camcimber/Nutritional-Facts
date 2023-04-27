@@ -142,7 +142,7 @@ void printSortedData(const vector<Food>& data, int fieldNumber, int k, string me
     for (int i = 0; i < k; i++) {
         cout << setw(4) << i + 1 << " | "
              << setw(fieldWidth) << left << data[i].description() << " | "
-             << setw(8) << right << data[i].fieldValueGetter(fieldNumber) << " " << setw(5) << left << measurement << endl;
+             << setw(8) << right << data[i].getMacro(fieldNumber) << " " << setw(5) << left << measurement << endl;
     }
 
 }

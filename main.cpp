@@ -54,25 +54,27 @@ int main() {
 
         string measurement = "";
         string macroChosen = " ";
-        if (macroNum == 1) {
+        switch (macroNum) {
+        case 1:
             macroChosen = "carbohydrates";
             measurement = "g";
-
-        } else if(macroNum == 2) {
+            break;
+        case 2:
             macroChosen = "fiber";
             measurement = "g";
-
-        } else if(macroNum == 3) {
+            break;
+        case 3:
             macroChosen = "protein";
             measurement = "g";
-
-        } else if(macroNum == 4) {
+            break;
+        case 4:
             macroChosen = "sugar";
             measurement = "g";
-
-        } else if (macroNum == 5) {
+            break;
+        case 5:
             macroChosen = "sodium";
             measurement = "mg";
+            break;
         }
 
         cout << "\nWould you like the highest or lowest values? Please type either 1 or 2" << endl;
@@ -112,8 +114,11 @@ int main() {
         vector<Food> heapSortVector;
         vector<Food> timSortVector;
 
+        // Time the algorithms
         chrono::duration<double, milli> diffHeap;
         chrono::duration<double, milli> diffTim;
+
+        // If the user wants the highest values
         if (rank == 1) {
             // Time the heap sort
             auto start = chrono::steady_clock::now();
@@ -127,6 +132,7 @@ int main() {
             end = chrono::steady_clock::now();
             diffTim = end - start;
 
+        // If the user wants the lowest values
         } else {
             // Time the heap sort
             auto start = chrono::steady_clock::now();
@@ -155,16 +161,21 @@ int main() {
         }
 
         cout << endl;
+        // Print the results
         cout << decision1 << " " << numItems << " items with the " << decision2 << " " << macroChosen << " value in the " << chosenCategory << " category:" << endl;
         
         cout << endl;
+        // Print heap sort
+        cout << "Heap sort:" << endl;
         printSortedData(heapSortVector, macroNum, numItems, measurement, macroChosen);
         cout << endl;
 
-        // Test to see if the two algorithms produce the same results
+        // Print Tim sort
+        cout << "Tim sort:" << endl;
         printSortedData(timSortVector, macroNum, numItems, measurement, macroChosen);
         cout << endl;
 
+        // Ask if the user wants to see another category
         cout << "Would you like to see another category? (Y/N): ";
         cin >> again;
     }

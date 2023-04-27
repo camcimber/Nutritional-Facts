@@ -14,7 +14,7 @@ vector<Food> kLargest(vector<Food>& data, int k, int fieldNumber) {
     // iterate through the data
     for (Food& food : data) {
         // get the field value
-        double field = food.fieldValueGetter(fieldNumber);
+        double field = food.getMacro(fieldNumber);
         
         food.fieldComparisonSetTrue(fieldNumber);
         // if the priority queue is full and the field value is larger than the top element, skip
@@ -58,7 +58,7 @@ vector<Food> kSmallest(vector<Food>& data, int k, int fieldNumber) {
     // iterate through the data
     for (Food& food : data) {
         // get the field value
-        double field = food.fieldValueGetter(fieldNumber);
+        double field = food.getMacro(fieldNumber);
 
         food.fieldComparisonSetTrue(fieldNumber);
         // if the priority queue is full and the field value is smaller than the top element, skip

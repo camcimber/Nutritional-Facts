@@ -34,7 +34,7 @@ public:
     double sodium() const;
 
     // Get the field value of the food object based on the field number
-    double fieldValueGetter(int field) const;
+    double getMacro(int field) const;
 
     // Set the field comparison to true of the field number
     void fieldComparisonSetTrue(int field);
@@ -87,7 +87,7 @@ double Food::sodium() const {
 }
 
 // Define a function to get the field value
-double Food::fieldValueGetter(int field) const {
+double Food::getMacro(int field) const {
     switch (field) {
         case 1:
             return carbohydrates_;

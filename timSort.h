@@ -8,8 +8,8 @@ void insertionSort(vector<Food>& arr, int fieldNumber, int l, int r) {
     for (int i = 1; i < arr.size(); i++) {
 
         int j = i - 1;
-        double prevValue = arr[j].fieldValueGetter(fieldNumber);
-        double currValue = arr[i].fieldValueGetter(fieldNumber);
+        double prevValue = arr[j].getMacro(fieldNumber);
+        double currValue = arr[i].getMacro(fieldNumber);
 
         //checks stay in bounds and if the current value is less than the previous value
         while (j >= 0 && currValue < prevValue) {
@@ -22,7 +22,7 @@ void insertionSort(vector<Food>& arr, int fieldNumber, int l, int r) {
             
             // update currValue if j is still in bounds
             if (j >= 0) {
-                prevValue = arr[j].fieldValueGetter(fieldNumber);
+                prevValue = arr[j].getMacro(fieldNumber);
             }
         }
     }
@@ -55,8 +55,8 @@ void merge(vector<Food>& arr, int fieldNumber, int l, int m, int r) {
     // in larger sub array
     while (i < len1 && j < len2) {
 
-        double leftValue = left[i].fieldValueGetter(fieldNumber);
-        double rightValue = right[j].fieldValueGetter(fieldNumber);
+        double leftValue = left[i].getMacro(fieldNumber);
+        double rightValue = right[j].getMacro(fieldNumber);
         if (leftValue <= rightValue) {
             arr[k] = left[i];
             i++;
