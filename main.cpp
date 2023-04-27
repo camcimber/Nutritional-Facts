@@ -185,6 +185,8 @@ int main() {
         // Ask if the user wants to see another category
         cout << "Would you like to see another category? (Y/N): ";
         cin >> again;
+
+        cin.ignore(); // Ignore the newline character left in the input buffer
     }
 
     cout << endl;
