@@ -118,8 +118,11 @@ void parseData(map<string, vector<Food>>& data, string fileName) {
     }
 }
 
-void printSortedData(const vector<Food>& data, int fieldNumber, string measurement) {
-    cout << endl;
+void printSortedData(const vector<Food>& data, int fieldNumber, string measurement, string macroChosen) {
+    
+    // Capitalize the first letter of the macro
+    macroChosen[0] = toupper(macroChosen[0]);
+
     //get the longest description length for formatting
     size_t maxDesLength = 0;
     for (const auto& food : data) {
@@ -133,8 +136,11 @@ void printSortedData(const vector<Food>& data, int fieldNumber, string measureme
     cout << left;  // Set left alignment for the description field
 
     size_t fieldWidth = maxDesLength + 4;
+
+    // FIXME: Print the data in a table format
+    cout << "Rank" << setw(fieldWidth) << "Description" << setw(8) << right << macroChosen << " " << setw(4) << left << "(" << measurement << ")" << endl;
     for (int i = 0; i < data.size(); i++) {
-        cout << setw(3) << i + 1 << ". ";
+        cout << i + 1 << setw(3) << ". ";
         cout << setw(fieldWidth) << data[i].description()
         << setw(8) << right << data[i].fieldValueGetter(fieldNumber) << " " << setw(4) << left << measurement << endl;
     }
@@ -176,6 +182,11 @@ int main() {
     int macroNum;
     cin >> macroNum;
 
+    while (macroNum < 1 || macroNum > 5) {
+        cout << "That number is out of bounds. Select another number: ";
+        cin >> macroNum;
+    }
+
     string measurement = "";
     string macroChosen = " ";
     if (macroNum == 1) {
@@ -199,49 +210,40 @@ int main() {
         measurement = "mg";
     }
 
-
-    while (macroNum < 1 || macroNum > 5) {
-        cout << "That number is out of bounds. Select another number: ";
-        cin >> macroNum;
-    }
-
     cout << "\nWould you like the highest or lowest values? Please type either 1 or 2" << endl;
     cout << "1. Highest" << endl;
     cout << "2. Lowest" << endl;
     int rank;
     cin >> rank;
 
-    string decision = "";
-    if (rank == 1) {
-        decision = "highest";
-
-    } else if (rank == 2) {
-        decision = "lowest";
-    }
-
     while (rank < 1 || rank > 2) {
         cout << "That number is out of bounds. Select another number: ";
         cin >> rank;
     }
 
-    int count = 0;
-    //get the total number of items in specified category
-    for (Food food : data[chosenCategory]) {
-        count++;
+    string decision1 = "";
+    string decision2 = "";
+    if (rank == 1) {
+        decision1 = "Top";
+        decision2 = "highest";
+
+    } else if (rank == 2) {
+        decision1 = "Bottom";
+        decision2 = "lowest";
     }
 
-    cout << "\nThere is a total number of items in " << chosenCategory << ": " << count << ", size: " << data[chosenCategory].size() << endl;
+    cout << "\nThere is a total number of items in " << chosenCategory << ": " << data[chosenCategory].size() << endl;
     cout << "How many of the " << chosenCategory << " items would you like to see? (i.e. Top 10 Items)" << endl;
     int numItems;
     cin >> numItems;
 
-    while (numItems > count || numItems < 0) {
+    while (numItems > data[chosenCategory].size() || numItems < 0) {
         cout << "That number is out of bounds. Select another number: ";
         cin >> numItems;
     }
 
     cout << endl;
-    cout << "Top " << numItems << " items with the " << decision << " "<< macroChosen << " value in the " << chosenCategory << " category:"<< endl;
+    cout << decision1 << " " << numItems << " items with the " << decision2 << " " << macroChosen << " value in the " << chosenCategory << " category:" << endl;
 
     vector<Food> heapSortVector;
     vector<Food> timSortVector;
@@ -253,7 +255,8 @@ int main() {
         heapSortVector = kSmallest(data[chosenCategory], numItems, macroNum);
     }
 
-    printSortedData(heapSortVector, macroNum, measurement);
+    cout << endl;
+    printSortedData(heapSortVector, macroNum, measurement, macroChosen);
 
     return 0;
 }
