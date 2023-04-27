@@ -14,6 +14,12 @@ class Food {
     double sugar_;
     double sodium_;
 
+    bool compare_carbohydrates = false;
+    bool compare_fiber = false;
+    bool compare_protein = false;
+    bool compare_sugar = false;
+    bool compare_sodium = false;
+
 public:
     // Constructor to initialize the fields
     Food(string category, string description, double carbohydrates, double fiber, double protein, double sugar, double sodium);
@@ -27,8 +33,13 @@ public:
     double sugar() const;
     double sodium() const;
 
-    // Define a function to get the field value
+    // Get the field value of the food object based on the field number
     double fieldValueGetter(int field) const;
+
+    // Set the field comparison to true of the field number
+    void fieldComparisonSetTrue(int field);
+    // Set all the field comparison to false
+    void fieldComparisonSetFalse();
 
     // Define the less-than operator to compare based on the macronutrient
     bool operator<(const Food& other) const;
@@ -97,7 +108,52 @@ double Food::fieldValueGetter(int field) const {
     return 0;
 }
 
+void Food::fieldComparisonSetTrue(int field) {
+    switch (field) {
+        case 1:
+            compare_carbohydrates = true;
+            break;
+
+        case 2:
+            compare_fiber = true;
+            break;
+
+        case 3:
+            compare_protein = true;
+            break;
+
+        case 4:
+            compare_sugar = true;
+            break;
+
+        case 5:
+            compare_sodium = true;
+            break;
+    }
+}
+
+void Food::fieldComparisonSetFalse() {
+    compare_carbohydrates = false;
+    compare_fiber = false;
+    compare_protein = false;
+    compare_sugar = false;
+    compare_sodium = false;
+
+}
+
 // Define the less-than operator to compare based on the macronutrient
 bool Food::operator<(const Food& other) const {
+    if (compare_carbohydrates) {
+        return carbohydrates_ < other.carbohydrates_;
+    } else if (compare_fiber) {
+        return fiber_ < other.fiber_;
+    } else if (compare_protein) {
+        return protein_ < other.protein_;
+    } else if (compare_sugar) {
+        return sugar_ < other.sugar_;
+    } else if (compare_sodium) {
+        return sodium_ < other.sodium_;
+    }
+    
     return carbohydrates_ < other.carbohydrates_;
 }

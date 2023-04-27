@@ -178,23 +178,23 @@ int main() {
 
     string measurement = "";
     string macroChosen = " ";
-    if(macroNum == 1){
+    if (macroNum == 1) {
         macroChosen = "carbohydrates";
         measurement = "g";
-    }
-    else if(macroNum == 2){
+
+    } else if(macroNum == 2) {
         macroChosen = "fiber";
         measurement = "g";
-    }
-    else if(macroNum == 3){
+
+    } else if(macroNum == 3) {
         macroChosen = "protein";
         measurement = "g";
-    }
-    else if(macroNum == 4){
+
+    } else if(macroNum == 4) {
         macroChosen = "sugar";
         measurement = "g";
-    }
-    else if(macroNum == 5){
+
+    } else if (macroNum == 5) {
         macroChosen = "sodium";
         measurement = "mg";
     }
@@ -229,12 +229,13 @@ int main() {
     for (Food food : data[chosenCategory]) {
         count++;
     }
-    cout << "\nThere is a total number of items in " << chosenCategory << ": " << count << endl;
+
+    cout << "\nThere is a total number of items in " << chosenCategory << ": " << count << ", size: " << data[chosenCategory].size() << endl;
     cout << "How many of the " << chosenCategory << " items would you like to see? (i.e. Top 10 Items)" << endl;
     int numItems;
     cin >> numItems;
 
-    while(numItems > count || numItems < 0){
+    while (numItems > count || numItems < 0) {
         cout << "That number is out of bounds. Select another number: ";
         cin >> numItems;
     }
