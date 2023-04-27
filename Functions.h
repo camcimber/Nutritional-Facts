@@ -126,17 +126,23 @@ void printSortedData(const vector<Food>& data, int fieldNumber, string measureme
             maxDesLength = descriptionLength;
         }
     }
-    // Print the data of the chosen category
-    cout << fixed << setprecision(2);
-    cout << left;  // Set left alignment for the description field
-
     size_t fieldWidth = maxDesLength + 4;
 
-    // FIXME: Print the data in a table format
-    cout << "Rank" << setw(fieldWidth) << "Description" << setw(8) << right << macroChosen << " " << setw(4) << left << "(" << measurement << ")" << endl;
+    cout << setw(4) << "Rank" << " | "
+         << setw(fieldWidth) << "Description" << " | "
+         << setw(10) << right << macroChosen << " (" << measurement << setw(5) << left << ")" << endl;
+
+// Print a separator line
+    cout << setfill('-') << setw(4) << "" << "-+-"
+         << setw(fieldWidth) << "" << "-+-"
+         << setw(10) << "" << "-+-"
+         << setw(7) << "" << setfill(' ') << endl;
+
+// Print the data in a table format
     for (int i = 0; i < data.size(); i++) {
-        cout << setw(3) << i + 1 << ". ";
-        cout << setw(fieldWidth) << data[i].description()
-        << setw(8) << right << data[i].fieldValueGetter(fieldNumber) << " " << setw(4) << left << measurement << endl;
+        cout << setw(4) << i + 1 << " | "
+             << setw(fieldWidth) << left << data[i].description() << " | "
+             << setw(8) << right << data[i].fieldValueGetter(fieldNumber) << " " << setw(5) << left << measurement << endl;
     }
+
 }
