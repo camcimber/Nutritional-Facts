@@ -9,6 +9,7 @@
 #include <queue>
 #include <thread>
 #include <chrono>
+#include <iomanip>
 #include "Food.h"
 #include "heapSort.h"
 
@@ -118,9 +119,24 @@ void parseData(map<string, vector<Food>>& data, string fileName) {
 }
 
 void printSortedData(const vector<Food>& data, int fieldNumber, string measurement) {
+    cout << endl;
+    //get the longest description length for formatting
+    size_t maxDesLength = 0;
+    for (const auto& food : data) {
+        size_t descriptionLength = food.description().size();
+        if (descriptionLength > maxDesLength) {
+            maxDesLength = descriptionLength;
+        }
+    }
     // Print the data of the chosen category
+    cout << fixed << setprecision(2);
+    cout << left;  // Set left alignment for the description field
+
+    size_t fieldWidth = maxDesLength + 4;
     for (int i = 0; i < data.size(); i++) {
-        cout << i + 1 << ". " << data[i].description() << " " << data[i].fieldValueGetter(fieldNumber) << measurement << endl;
+        cout << setw(3) << i + 1 << ". ";
+        cout << setw(fieldWidth) << data[i].description()
+        << setw(8) << right << data[i].fieldValueGetter(fieldNumber) << " " << setw(4) << left << measurement << endl;
     }
 }
 
@@ -161,12 +177,28 @@ int main() {
     cin >> macroNum;
 
     string measurement = "";
-    if (macroNum == 1 || macroNum == 3 || macroNum == 4 || macroNum == 2) {
+    string macroChosen = " ";
+    if(macroNum == 1){
+        macroChosen = "carbohydrates";
         measurement = "g";
-
-    } else if (macroNum == 5) {
+    }
+    else if(macroNum == 2){
+        macroChosen = "fiber";
+        measurement = "g";
+    }
+    else if(macroNum == 3){
+        macroChosen = "protein";
+        measurement = "g";
+    }
+    else if(macroNum == 4){
+        macroChosen = "sugar";
+        measurement = "g";
+    }
+    else if(macroNum == 5){
+        macroChosen = "sodium";
         measurement = "mg";
     }
+
 
     while (macroNum < 1 || macroNum > 5) {
         cout << "That number is out of bounds. Select another number: ";
@@ -181,10 +213,10 @@ int main() {
 
     string decision = "";
     if (rank == 1) {
-        decision = "top";
+        decision = "highest";
 
     } else if (rank == 2) {
-        decision = "bottom";
+        decision = "lowest";
     }
 
     while (rank < 1 || rank > 2) {
@@ -208,16 +240,7 @@ int main() {
     }
 
     cout << endl;
-    cout << "Displaying the " << decision << " " << numItems << " items in the " << chosenCategory << " category:"<< endl;
-    // call sort function here !
-    // then the data to print will be in the correct order
-    // Print the data of the chosen category
-
-    int tempCount = 1;
-//    for (Food food : data[chosenCategory]) {
-      //  cout << \n << tempCount  << ". "<< food.description() << "          " << food.carbohydrates() << measurement << endl;
-//        tempCount++;
-//    }
+    cout << "Top " << numItems << " items with the " << decision << " "<< macroChosen << " value in the " << chosenCategory << " category:"<< endl;
 
     vector<Food> heapSortVector;
     vector<Food> timSortVector;
