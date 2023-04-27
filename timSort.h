@@ -104,20 +104,20 @@ vector<Food> timSort(const vector<Food>& data, int fieldNumber, bool ascending) 
     // merge to form size 16,
     // then 32, 64, 128, 256
     // and so on ....
-    for (int size = RUN; size < n; size = 2*size) {
+    for (int j = RUN; j < n; j *= 2) {
          
         // pick starting point of
         // left sub array. We
         // are going to merge
         // arr[left..left+size-1]
-        for (int left = 0; left < n; left += 2*size) {
+        for (int left = 0; left < n; left += 2*j) {
              
             // find ending point of
             // left sub array
             // mid+1 is starting point
             // of right sub array
-            int mid = left + size - 1;
-            int right = min((left + 2*size - 1), (n-1));
+            int mid = left + j - 1;
+            int right = min((left + 2*j - 1), (n-1));
  
             // merge sub array arr[left.....mid] &
             // arr[mid+1....right]
